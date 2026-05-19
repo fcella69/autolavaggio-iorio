@@ -1,0 +1,7 @@
+<svg width="220" height="48" viewBox="0 0 220 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="48" rx="8" fill="#061826"/>
+  <path d="M21 31L31 17H39L49 31H40.8L38.9 28H31.1L29.2 31H21Z" fill="#D6F04A"/>
+  <path d="M33.2 24.5H36.8L35 21.4L33.2 24.5Z" fill="#061826"/>
+  <text x="62" y="21" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="14" font-weight="700">Autolavaggio</text>
+  <text x="62" y="36" fill="#D6F04A" font-family="Arial, sans-serif" font-size="17" font-weight="800">Iorio</text>
+</svg>

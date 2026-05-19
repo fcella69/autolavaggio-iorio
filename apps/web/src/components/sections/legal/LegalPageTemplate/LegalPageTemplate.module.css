@@ -1,0 +1,14 @@
+.article {
+  max-width: 860px;
+}
+
+.content {
+  color: var(--color-muted);
+  margin-top: 28px;
+}
+
+.content h2 {
+  color: var(--color-text);
+  font-family: var(--font-sora), Arial, sans-serif;
+  margin-top: 34px;
+}
