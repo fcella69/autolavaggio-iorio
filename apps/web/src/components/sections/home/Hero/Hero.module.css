@@ -1,62 +1,192 @@
 .hero {
   background:
-    linear-gradient(90deg, rgba(6, 24, 38, 0.96), rgba(6, 24, 38, 0.72)),
-    linear-gradient(135deg, rgba(214, 240, 74, 0.18), transparent 34%),
-    url("/logo-placeholder.svg");
-  background-color: var(--color-night);
-  background-position: center, center, right 12% center;
-  background-repeat: no-repeat;
-  background-size: cover, cover, 360px auto;
-  color: var(--color-white);
-  min-height: calc(100vh - 82px);
+    radial-gradient(circle at 16% 18%, rgba(214, 240, 74, 0.13), transparent 24%),
+    radial-gradient(circle at 82% 20%, rgba(114, 198, 224, 0.18), transparent 32%),
+    linear-gradient(135deg, #061826 0%, #071d2e 42%, #0b2c45 100%);
+  color: var(--color-ice-soft);
+  min-height: calc(100vh - var(--header-height));
+  overflow: hidden;
   position: relative;
 }
 
-.hero::after {
-  background: rgba(214, 240, 74, 0.75);
-  border-radius: 999px 999px 0 0;
-  bottom: -1px;
+.hasBackground {
+  background-image:
+    linear-gradient(90deg,
+      rgba(6, 24, 38, 0.98) 0%,
+      rgba(6, 24, 38, 0.94) 32%,
+      rgba(6, 24, 38, 0.72) 52%,
+      rgba(6, 24, 38, 0.3) 76%,
+      rgba(6, 24, 38, 0.22) 100%),
+    var(--hero-bg);
+  background-position:
+    center,
+    center right;
+  background-repeat: no-repeat;
+  background-size:
+    cover,
+    cover;
+}
+
+.hero::before {
+  background:
+    repeating-linear-gradient(-8deg,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 22px);
   content: "";
-  height: 28px;
-  left: 0;
-  opacity: 0.55;
+  inset: 0;
+  mask-image: linear-gradient(180deg, black, transparent 72%);
+  opacity: 0.35;
+  pointer-events: none;
   position: absolute;
-  width: 42%;
+}
+
+.waterGlow {
+  background: radial-gradient(circle, rgba(214, 240, 74, 0.2), transparent 58%);
+  border-radius: 999px;
+  filter: blur(4px);
+  height: 520px;
+  opacity: 0.72;
+  position: absolute;
+  right: -180px;
+  top: 10%;
+  width: 520px;
+}
+
+.bubbleOne,
+.bubbleTwo {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  position: absolute;
+}
+
+.bubbleOne {
+  height: 54px;
+  left: 8%;
+  top: 24%;
+  width: 54px;
+}
+
+.bubbleTwo {
+  height: 26px;
+  right: 38%;
+  top: 18%;
+  width: 26px;
 }
 
 .inner {
   align-items: center;
   display: flex;
-  min-height: calc(100vh - 82px);
-  padding-bottom: 80px;
-  padding-top: 80px;
+  min-height: calc(100vh - var(--header-height));
+  padding-bottom: clamp(120px, 13vw, 180px);
+  padding-top: clamp(78px, 9vw, 132px);
+  position: relative;
+  z-index: 2;
 }
 
-.inner > div {
-  max-width: 760px;
+.copy {
+  max-width: 790px;
 }
 
-.inner h1 {
+.copy h1 {
   font-family: var(--font-sora), Arial, sans-serif;
-  font-size: clamp(3rem, 7vw, 6.6rem);
-  letter-spacing: 0;
-  line-height: 0.98;
+  font-size: clamp(3.4rem, 6.15vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.075em;
+  line-height: 0.94;
   margin: 0;
+  max-width: 700px;
 }
 
-.inner p {
-  color: rgba(234, 242, 245, 0.82);
-  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-  margin: 22px 0 0;
-  max-width: 650px;
+.copy p {
+  color: rgba(234, 242, 245, 0.84);
+  font-size: clamp(1.04rem, 1.4vw, 1.25rem);
+  line-height: 1.72;
+  margin: 26px 0 0;
+  max-width: 620px;
+}
+
+.wave {
+  background: var(--color-ice-soft);
+  border-radius: 52% 48% 0 0 / 72% 74% 0 0;
+  bottom: -86px;
+  height: 190px;
+  left: -6%;
+  position: absolute;
+  right: -6%;
+  transform: rotate(-1.5deg);
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .hasBackground {
+    background-image:
+      linear-gradient(180deg,
+        rgba(6, 24, 38, 0.98) 0%,
+        rgba(6, 24, 38, 0.94) 28%,
+        rgba(6, 24, 38, 0.78) 54%,
+        rgba(6, 24, 38, 0.62) 100%),
+      var(--hero-mobile-bg);
+    background-position:
+      center,
+      center bottom;
+    background-repeat: no-repeat;
+    background-size:
+      cover,
+      cover;
+  }
+
+  .inner {
+    min-height: auto;
+    padding-bottom: 132px;
+    padding-top: 80px;
+  }
+
+  .copy {
+    max-width: 680px;
+  }
 }
 
 @media (max-width: 720px) {
   .hero {
-    background-size: cover, cover, 240px auto;
+    min-height: auto;
   }
 
-  .inner h1 {
-    font-size: clamp(2.55rem, 14vw, 4rem);
+  .copy h1 {
+    font-size: clamp(2.75rem, 13vw, 4.25rem);
+    letter-spacing: -0.065em;
+    line-height: 0.98;
+  }
+
+  .copy p {
+    font-size: 1.03rem;
+    line-height: 1.65;
+    margin-top: 22px;
+  }
+
+  .bubbleOne,
+  .bubbleTwo {
+    display: none;
+  }
+
+  .wave {
+    bottom: -72px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 460px) {
+  .inner {
+    padding-top: 58px;
+  }
+
+  .copy h1 {
+    font-size: clamp(2.45rem, 12vw, 3.35rem);
+    letter-spacing: -0.06em;
+  }
+
+  .waterGlow {
+    right: -260px;
   }
 }

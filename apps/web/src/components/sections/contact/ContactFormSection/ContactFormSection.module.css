@@ -1,48 +1,180 @@
-.form {
-  background: var(--color-white);
-  border: 1px solid rgba(8, 32, 51, 0.1);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-soft);
-  display: grid;
-  gap: 16px;
-  padding: 26px;
+.section {
+  background: #ffffff;
+  padding: clamp(76px, 9vw, 128px) 0;
 }
 
-.form label {
-  color: var(--color-text);
+.grid {
+  align-items: center;
   display: grid;
+  gap: clamp(34px, 6vw, 86px);
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 0.78fr);
+}
+
+.copy {
+  position: static;
+}
+
+.copy h2 {
+  font-family: var(--font-sora), Arial, sans-serif;
+  font-size: clamp(2.3rem, 4.4vw, 4.35rem);
   font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+  margin: 0;
+}
+
+.copy p {
+  color: var(--color-muted);
+  font-size: 1.08rem;
+  line-height: 1.75;
+  margin: 22px 0 0;
+  max-width: 620px;
+}
+
+.form {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(214, 240, 74, 0.14), transparent 28%),
+    linear-gradient(180deg, var(--color-ice-soft), #ffffff);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  gap: 18px;
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.field {
+  display: grid;
   gap: 8px;
 }
 
-.form input,
-.form textarea {
-  border: 1px solid rgba(8, 32, 51, 0.16);
-  border-radius: var(--radius-sm);
+.field label,
+.privacy {
   color: var(--color-text);
-  padding: 13px 14px;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.field input,
+.field textarea,
+.field select {
+  background: #ffffff;
+  border: 1px solid rgba(8, 32, 51, 0.14);
+  border-radius: 16px;
+  color: var(--color-text);
+  min-height: 54px;
+  outline: none;
+  padding: 14px 16px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   width: 100%;
 }
 
-.form input:focus,
-.form textarea:focus {
-  border-color: var(--color-lime);
-  outline: 2px solid rgba(214, 240, 74, 0.2);
+.field textarea {
+  min-height: 138px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: rgba(214, 240, 74, 0.95);
+  box-shadow: 0 0 0 4px rgba(214, 240, 74, 0.16);
 }
 
 .privacy {
-  align-items: flex-start;
-  display: flex !important;
-  font-size: 0.92rem;
-  font-weight: 600 !important;
+  align-items: start;
+  color: var(--color-muted);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  line-height: 1.55;
 }
 
 .privacy input {
-  margin-top: 6px;
-  width: auto;
+  accent-color: var(--color-lime);
+  margin-top: 4px;
 }
 
 .status {
-  color: var(--color-muted);
-  margin: 0;
+  border-radius: 14px;
+  font-weight: 800;
+  padding: 13px 15px;
+}
+
+.success {
+  background: rgba(214, 240, 74, 0.18);
+  color: var(--color-night);
+}
+
+.error {
+  background: rgba(197, 50, 50, 0.1);
+  color: #9d1f1f;
+}
+
+@media (max-width: 920px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .copy {
+    position: static;
+  }
+}
+
+.copyImage {
+  align-items: center;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(214, 240, 74, 0.18), transparent 28%),
+    linear-gradient(135deg, #061826, #0b2c45);
+  border: 1px solid rgba(8, 32, 51, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  color: rgba(255, 255, 255, 0.72);
+  display: flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  margin-top: 34px;
+  max-width: 430px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  width: min(100%, 430px);
+}
+
+.copyImage::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.copyImage::after {
+  background:
+    linear-gradient(180deg, transparent, rgba(6, 24, 38, 0.18)),
+    var(--contact-form-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 0.2s ease;
+}
+
+.copyImage span {
+  position: absolute;
+  z-index: 1;
+}
+
+.hasImage::after {
+  opacity: 1;
+}
+
+.hasImage span {
+  display: none;
 }

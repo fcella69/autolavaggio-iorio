@@ -1,11 +1,23 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button/Button";
 import styles from "./Header.module.css";
+import { optimizeSanityImage } from "@/lib/sanity/image";
+
+type HeaderProps = {
+  data?: {
+    logoUrl?: string;
+    logoAlt?: string;
+    logoHref?: string;
+    cta?: {
+      label?: string;
+      href?: string;
+    };
+  } | null;
+};
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -15,34 +27,59 @@ const navItems = [
   { label: "Contatti", href: "/contatti" }
 ];
 
-export function Header() {
+export function Header({ data }: HeaderProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  const logoHref = data?.logoHref || "/";
+  const ctaLabel = data?.cta?.label || "Contattaci";
+  const ctaHref = data?.cta?.href || "/contatti";
+  const optimizedLogoUrl = optimizeSanityImage(data?.logoUrl, {
+    width: 420,
+    quality: 90,
+    fit: "max"
+  });
+
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.logo} aria-label="Autolavaggio Iorio">
-        <Image src="/logo-placeholder.svg" alt="Autolavaggio Iorio" width={220} height={48} priority />
+      <Link href={logoHref} className={styles.logoBadge} aria-label="Vai alla home">
+        <span className={styles.logoCircle}>
+          {optimizedLogoUrl ? (
+            <img src={optimizedLogoUrl} alt={data?.logoAlt || "Autolavaggio Iorio"} />
+          ) : (
+            <span className={styles.logoFallback}>
+              <strong>Iorio</strong>
+              <small>Car Wash</small>
+            </span>
+          )}
+        </span>
       </Link>
 
       <nav className={styles.desktopNav} aria-label="Menu principale">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={pathname === item.href ? styles.active : undefined}
-          >
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={isActive ? styles.active : undefined}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       <div className={styles.actions}>
-        <Button href="/contatti" variant="primary">Contattaci</Button>
+        <Button href={ctaHref} variant="primary" className={styles.headerCta}>
+          {ctaLabel}
+        </Button>
+
         <button
-          className={styles.menuButton}
+          className={`${styles.menuButton} ${isOpen ? styles.menuButtonOpen : ""}`}
           type="button"
-          aria-label="Apri menu"
+          aria-label={isOpen ? "Chiudi menu" : "Apri menu"}
           aria-expanded={isOpen}
           onClick={() => setIsOpen((value) => !value)}
         >
@@ -54,11 +91,26 @@ export function Header() {
 
       {isOpen ? (
         <nav className={styles.mobileNav} aria-label="Menu mobile">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)}>
-              {item.label}
-            </Link>
-          ))}
+          <div className={styles.mobileNavInner}>
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={isActive ? styles.mobileActive : undefined}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+
+            <Button href={ctaHref} variant="primary" className={styles.mobileCta}>
+              {ctaLabel}
+            </Button>
+          </div>
         </nav>
       ) : null}
     </header>

@@ -1,0 +1,114 @@
+.hero {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(214, 240, 74, 0.13), transparent 24%),
+    radial-gradient(circle at 82% 20%, rgba(114, 198, 224, 0.16), transparent 32%),
+    linear-gradient(135deg, #061826 0%, #071d2e 48%, #0b2c45 100%);
+  color: var(--color-white);
+  overflow: hidden;
+  padding: clamp(86px, 10vw, 148px) 0 clamp(76px, 8vw, 118px);
+  position: relative;
+}
+
+.hero::before {
+  background:
+    repeating-linear-gradient(
+      -8deg,
+      rgba(255, 255, 255, 0.045) 0,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px,
+      transparent 22px
+    );
+  content: "";
+  inset: 0;
+  opacity: 0.35;
+  position: absolute;
+}
+
+.hero::after {
+  background: rgba(214, 240, 74, 0.7);
+  border-radius: 999px;
+  bottom: -90px;
+  content: "";
+  height: 210px;
+  position: absolute;
+  right: -70px;
+  width: 210px;
+}
+
+.inner {
+  display: grid;
+  gap: clamp(34px, 6vw, 82px);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
+  position: relative;
+  z-index: 1;
+}
+
+.copy {
+  max-width: 860px;
+}
+
+.copy h1 {
+  font-family: var(--font-sora), Arial, sans-serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.075em;
+  line-height: 0.94;
+  margin: 0;
+}
+
+.copy p {
+  color: rgba(234, 242, 245, 0.82);
+  font-size: clamp(1.05rem, 1.35vw, 1.22rem);
+  line-height: 1.75;
+  margin: 26px 0 0;
+  max-width: 680px;
+}
+
+.panel {
+  align-self: end;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-dark);
+  padding: 26px;
+}
+
+.panel span {
+  color: var(--color-lime);
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.panel strong {
+  color: var(--color-white);
+  display: block;
+  font-family: var(--font-sora), Arial, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+}
+
+@media (max-width: 880px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding: 72px 0 74px;
+  }
+
+  .copy h1 {
+    font-size: clamp(2.55rem, 12vw, 3.8rem);
+    line-height: 0.98;
+  }
+}

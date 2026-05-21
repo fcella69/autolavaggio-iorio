@@ -1,0 +1,89 @@
+.section {
+  background: var(--gradient-night);
+  color: var(--color-white);
+  overflow: hidden;
+  padding: clamp(76px, 9vw, 128px) 0;
+  position: relative;
+}
+
+.section::before {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(214, 240, 74, 0.14), transparent 24%),
+    radial-gradient(circle at 82% 24%, rgba(114, 198, 224, 0.16), transparent 34%);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+.head {
+  max-width: 880px;
+}
+
+.head h2,
+.advanced h2 {
+  font-family: var(--font-sora), Arial, sans-serif;
+  font-size: clamp(2.3rem, 4.5vw, 4.35rem);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+  margin: 0;
+}
+
+.head p,
+.advanced p {
+  color: rgba(234, 242, 245, 0.78);
+  font-size: 1.07rem;
+  line-height: 1.75;
+  margin: 22px 0 0;
+  max-width: 760px;
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 42px;
+}
+
+.grid2 {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 42px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.065);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.card h3 {
+  font-family: var(--font-sora), Arial, sans-serif;
+  font-size: 1.14rem;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.card p {
+  color: rgba(234, 242, 245, 0.74);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.advanced {
+  margin-top: clamp(76px, 9vw, 120px);
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

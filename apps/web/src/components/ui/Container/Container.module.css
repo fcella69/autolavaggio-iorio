@@ -1,12 +1,12 @@
 .container {
   margin: 0 auto;
-  max-width: 1180px;
-  padding: 0 24px;
+  max-width: 1260px;
+  padding: 0 clamp(22px, 4vw, 54px);
   width: 100%;
 }
 
 @media (max-width: 640px) {
   .container {
-    padding: 0 18px;
+    padding: 0 20px;
   }
 }

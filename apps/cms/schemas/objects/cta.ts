@@ -5,8 +5,22 @@ export const cta = defineType({
   title: "CTA",
   type: "object",
   fields: [
-    defineField({ name: "label", title: "Label", type: "string" }),
-    defineField({ name: "href", title: "Link", type: "string" }),
-    defineField({ name: "text", title: "Supporting text", type: "text", rows: 2 })
+    defineField({
+      name: "label",
+      title: "Testo pulsante",
+      type: "string"
+    }),
+    defineField({
+      name: "href",
+      title: "Link",
+      type: "string",
+      description: "Esempio: /contatti, /servizi, tel:+393382350148"
+    }),
+    defineField({
+      name: "text",
+      title: "Testo di supporto",
+      type: "text",
+      rows: 2
+    })
   ]
 });

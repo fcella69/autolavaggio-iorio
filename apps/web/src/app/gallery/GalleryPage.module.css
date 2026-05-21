@@ -1,3 +1,4 @@
 .page {
-  background: var(--color-white);
+  background: var(--color-ice-soft);
+  color: var(--color-text);
 }

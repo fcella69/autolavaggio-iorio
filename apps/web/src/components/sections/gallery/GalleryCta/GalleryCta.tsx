@@ -1,16 +1,47 @@
 import { Button } from "@/components/ui/Button/Button";
 import { Container } from "@/components/ui/Container/Container";
-import { Section } from "@/components/ui/Section/Section";
+import styles from "./GalleryCta.module.css";
 
-export function GalleryCta() {
+type GalleryCtaProps = {
+  data?: {
+    eyebrow?: string;
+    title?: string;
+    text?: string;
+    primaryCta?: {
+      label?: string;
+      href?: string;
+    };
+    secondaryCta?: {
+      label?: string;
+      href?: string;
+    };
+  };
+};
+
+export function GalleryCta({ data }: GalleryCtaProps) {
   return (
-    <Section className="dark-band">
+    <section className={styles.section}>
       <Container>
-        <h2 className="section-heading">Vuoi vedere il risultato sul tuo veicolo?</h2>
-        <div className="section-actions">
-          <Button href="/contatti">Contattaci</Button>
+        <div className={styles.panel}>
+          <div className={styles.copy}>
+            <span className="eyebrow">{data?.eyebrow || "Vuoi maggiori informazioni?"}</span>
+            <h2>{data?.title || "Contattaci o scopri tutti i servizi disponibili."}</h2>
+            <p>
+              {data?.text ||
+                "Per informazioni su lavaggio auto a mano, furgoni, camion, mezzi industriali e sanificazione, puoi chiamarci o consultare la pagina servizi."}
+            </p>
+          </div>
+
+          <div className={styles.actions}>
+            <Button href={data?.primaryCta?.href || "/contatti"}>
+              {data?.primaryCta?.label || "Contattaci"}
+            </Button>
+            <Button href={data?.secondaryCta?.href || "/servizi"} variant="ghost">
+              {data?.secondaryCta?.label || "Vai ai servizi"}
+            </Button>
+          </div>
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }

@@ -1,71 +1,196 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import type { CSSProperties, FormEvent } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button/Button";
 import { Container } from "@/components/ui/Container/Container";
-import { Section } from "@/components/ui/Section/Section";
 import styles from "./ContactFormSection.module.css";
+import { sanityImageCss } from "@/lib/sanity/image";
 
-export function ContactFormSection() {
-  const [status, setStatus] = useState<string | null>(null);
+
+type ContactFormSectionProps = {
+  data?: {
+    eyebrow?: string;
+    title?: string;
+    text?: string;
+    imageUrl?: string;
+    imageAlt?: string;
+    requestTypes?: string[];
+    labels?: {
+      name?: string;
+      email?: string;
+      phone?: string;
+      requestType?: string;
+      message?: string;
+      privacy?: string;
+      submit?: string;
+    };
+    messages?: {
+      success?: string;
+      error?: string;
+    };
+  };
+};
+
+const fallbackRequestTypes = [
+  "Lavaggio auto a mano",
+  "Lavaggio furgoni / veicoli commerciali",
+  "Lavaggio camion / mezzi industriali",
+  "Sanificazione auto",
+  "Informazioni generali"
+];
+
+const fallbackLabels = {
+  name: "Nome e cognome",
+  email: "Email",
+  phone: "Telefono",
+  requestType: "Tipo di richiesta",
+  message: "Messaggio",
+  privacy: "Ho letto l’informativa privacy e acconsento al trattamento dei dati.",
+  submit: "Invia richiesta"
+};
+
+const fallbackMessages = {
+  success: "Richiesta inviata correttamente. Ti ricontatteremo appena possibile.",
+  error: "Si è verificato un errore. Riprova tra qualche minuto o contattaci telefonicamente."
+};
+
+export function ContactFormSection({ data }: ContactFormSectionProps) {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const labels = {
+    ...fallbackLabels,
+    ...data?.labels
+  };
+
+  const messages = {
+    ...fallbackMessages,
+    ...data?.messages
+  };
+
+  const requestTypes = data?.requestTypes?.length ? data.requestTypes : fallbackRequestTypes;
+  const imageStyle = data?.imageUrl
+    ? ({
+      "--contact-form-image": sanityImageCss(data.imageUrl, {
+        width: 800,
+        height: 800,
+        quality: 80,
+        fit: "crop"
+      })
+    } as CSSProperties)
+    : undefined;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("Invio in corso...");
+    setStatus("loading");
 
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      body: JSON.stringify(Object.fromEntries(formData.entries())),
-      headers: {
-        "Content-Type": "application/json"
+    const formData = new FormData(event.currentTarget);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Contact API error");
       }
-    });
 
-    setStatus(response.ok ? "Richiesta registrata. Collegare un servizio email per l'invio reale." : "Controlla i campi e riprova.");
-    if (response.ok) {
-      form.reset();
+      event.currentTarget.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
     }
   }
 
   return (
-    <Section>
+    <section className={styles.section}>
       <Container>
-        <div className="content-grid">
-          <div>
-            <span className="eyebrow">Scrivici</span>
-            <h2 className="section-heading">Richiedi informazioni.</h2>
-            <p className="section-lead">
-              Il form è validato lato API e pronto per un futuro collegamento email o CRM.
+        <div className={styles.grid}>
+          <div className={styles.copy}>
+            <span className="eyebrow">{data?.eyebrow || "Richiedi informazioni"}</span>
+            <h2>{data?.title || "Hai bisogno di informazioni?"}</h2>
+            <p>
+              {data?.text ||
+                "Scrivici per ricevere informazioni sui servizi di lavaggio, sanificazione, trattamento interni o lavaggio di veicoli commerciali e mezzi industriali."}
             </p>
+
+            <div
+              className={`${styles.copyImage} ${data?.imageUrl ? styles.hasImage : ""}`}
+              style={imageStyle}
+              role="img"
+              aria-label={data?.imageAlt || "Autolavaggio Iorio"}
+            >
+              {!data?.imageUrl ? <span>Immagine quadrata da Sanity</span> : null}
+            </div>
           </div>
+
           <form className={styles.form} onSubmit={handleSubmit}>
-            <label>
-              Nome
-              <input name="name" required minLength={2} />
-            </label>
-            <label>
-              Email
-              <input name="email" type="email" required />
-            </label>
-            <label>
-              Telefono
-              <input name="phone" type="tel" />
-            </label>
-            <label>
-              Messaggio
-              <textarea name="message" required minLength={10} rows={5} />
-            </label>
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                opacity: 0,
+                pointerEvents: "none"
+              }}
+            />
+            <div className={styles.field}>
+              <label htmlFor="name">{labels.name}</label>
+              <input id="name" name="name" type="text" required />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="email">{labels.email}</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="phone">{labels.phone}</label>
+              <input id="phone" name="phone" type="tel" />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="requestType">{labels.requestType}</label>
+              <select id="requestType" name="requestType" defaultValue={requestTypes[0]}>
+                {requestTypes.map((type) => (
+                  <option value={type} key={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="message">{labels.message}</label>
+              <textarea id="message" name="message" required />
+            </div>
+
             <label className={styles.privacy}>
-              <input name="privacy" type="checkbox" value="accepted" required />
-              Accetto il trattamento dei dati secondo la Privacy Policy.
+              <input name="privacy" type="checkbox" required />
+              <span>{labels.privacy}</span>
             </label>
-            <Button type="submit">Invia richiesta</Button>
-            {status ? <p className={styles.status}>{status}</p> : null}
+
+            {status === "success" ? (
+              <div className={`${styles.status} ${styles.success}`}>{messages.success}</div>
+            ) : null}
+
+            {status === "error" ? (
+              <div className={`${styles.status} ${styles.error}`}>{messages.error}</div>
+            ) : null}
+
+            <Button type="submit">{status === "loading" ? "Invio in corso..." : labels.submit}</Button>
           </form>
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }

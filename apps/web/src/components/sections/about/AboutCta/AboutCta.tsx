@@ -1,17 +1,47 @@
 import { Button } from "@/components/ui/Button/Button";
 import { Container } from "@/components/ui/Container/Container";
-import { Section } from "@/components/ui/Section/Section";
+import styles from "./AboutCta.module.css";
 
-export function AboutCta() {
+type AboutCtaProps = {
+  data?: {
+    eyebrow?: string;
+    title?: string;
+    text?: string;
+    primaryCta?: {
+      label?: string;
+      href?: string;
+    };
+    secondaryCta?: {
+      label?: string;
+      href?: string;
+    };
+  };
+};
+
+export function AboutCta({ data }: AboutCtaProps) {
   return (
-    <Section className="dark-band">
+    <section className={styles.section}>
       <Container>
-        <h2 className="section-heading">Hai bisogno di un lavaggio professionale?</h2>
-        <div className="section-actions">
-          <Button href="/contatti">Parla con noi</Button>
-          <Button href="/servizi" variant="ghost">Scopri i servizi</Button>
+        <div className={styles.panel}>
+          <div className={styles.copy}>
+            <span className="eyebrow">{data?.eyebrow || "Vieni a trovarci"}</span>
+            <h2>{data?.title || "Autolavaggio Iorio ti aspetta in Via Agnano Astroni."}</h2>
+            <p>
+              {data?.text ||
+                "Siamo a Napoli, nei pressi dell’Ippodromo di Agnano. Il servizio è attivo dal lunedì al sabato dalle 8:00 alle 18:30. Domenica chiuso."}
+            </p>
+          </div>
+
+          <div className={styles.actions}>
+            <Button href={data?.primaryCta?.href || "/contatti"}>
+              {data?.primaryCta?.label || "Vai ai contatti"}
+            </Button>
+            <Button href={data?.secondaryCta?.href || "/servizi"} variant="ghost">
+              {data?.secondaryCta?.label || "Scopri i servizi"}
+            </Button>
+          </div>
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }

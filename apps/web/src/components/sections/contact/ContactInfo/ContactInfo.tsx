@@ -1,27 +1,67 @@
 import { Container } from "@/components/ui/Container/Container";
-import { Section } from "@/components/ui/Section/Section";
+import styles from "./ContactInfo.module.css";
 
-const items = [
-  ["Ragione sociale", "Autolavaggio Iorio S.R.L."],
-  ["Indirizzo", "Via Agnano Astroni, 123/131 - Napoli"],
-  ["Telefono", "Da definire"],
-  ["Email", "Da definire"],
-  ["Orari", "Lun - Sab: 08:00 - 19:00"]
+type ContactInfoProps = {
+  data?: Array<{
+    label?: string;
+    value?: string;
+    href?: string;
+  }>;
+};
+
+const fallbackCards = [
+  {
+    label: "Indirizzo",
+    value: "Via Agnano Astroni, 131/123\n80125 Napoli (NA)",
+    href: "#mappa"
+  },
+  {
+    label: "Telefono",
+    value: "+39 338 235 0148",
+    href: "tel:+393382350148"
+  },
+  {
+    label: "Email",
+    value: "lucianoiorio@hotmail.it",
+    href: "mailto:lucianoiorio@hotmail.it"
+  },
+  {
+    label: "Orari",
+    value: "Lun - Sab: 08:00 - 18:30\nDomenica: chiuso"
+  }
 ];
 
-export function ContactInfo() {
+export function ContactInfo({ data }: ContactInfoProps) {
+  const cards = data?.length ? data : fallbackCards;
+
   return (
-    <Section>
+    <section className={styles.section}>
       <Container>
-        <div className="card-grid">
-          {items.map(([label, value]) => (
-            <article className="feature-card" key={label}>
-              <span className="eyebrow">{label}</span>
-              <h3>{value}</h3>
-            </article>
-          ))}
+        <div className={styles.grid}>
+          {cards.map((card, index) => {
+            const content = (
+              <>
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+              </>
+            );
+
+            if (card.href) {
+              return (
+                <a className={styles.card} href={card.href} key={`${card.label}-${index}`}>
+                  {content}
+                </a>
+              );
+            }
+
+            return (
+              <article className={styles.card} key={`${card.label}-${index}`}>
+                {content}
+              </article>
+            );
+          })}
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }

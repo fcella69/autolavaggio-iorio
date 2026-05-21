@@ -1,55 +1,205 @@
 .footer {
-  background: var(--color-night);
-  color: rgba(255, 255, 255, 0.74);
-  padding: 72px 0 28px;
-}
-
-.grid {
-  display: grid;
-  gap: 34px;
-  grid-template-columns: 1.4fr 0.8fr 1fr 1fr;
-}
-
-.grid h2 {
+  background:
+    radial-gradient(circle at 16% 16%, rgba(214, 240, 74, 0.13), transparent 24%),
+    radial-gradient(circle at 88% 20%, rgba(114, 198, 224, 0.14), transparent 34%),
+    linear-gradient(135deg, #061826 0%, #071d2e 48%, #0b2c45 100%);
   color: var(--color-white);
-  font-family: var(--font-sora), Arial, sans-serif;
-  font-size: 1rem;
-  margin: 0 0 14px;
+  overflow: hidden;
+  padding: clamp(70px, 8vw, 110px) 0 34px;
+  position: relative;
 }
 
-.grid p {
-  margin: 12px 0;
-  max-width: 320px;
+.footer::before {
+  background:
+    repeating-linear-gradient(
+      -8deg,
+      rgba(255, 255, 255, 0.04) 0,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 22px
+    );
+  content: "";
+  inset: 0;
+  opacity: 0.3;
+  position: absolute;
 }
 
-.grid a {
+.footer > * {
+  position: relative;
+  z-index: 1;
+}
+
+.top {
+  display: grid;
+  gap: clamp(42px, 7vw, 92px);
+  grid-template-columns: minmax(280px, 0.55fr) minmax(0, 1fr);
+}
+
+.brand {
+  max-width: 420px;
+}
+
+.logoWrap {
+  align-items: center;
+  display: inline-flex;
+  justify-content: flex-start;
+  margin-bottom: 28px;
+  max-width: 260px;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.logoWrap:hover {
+  opacity: 0.86;
+  transform: translateY(-2px);
+}
+
+.logoWrap img {
   display: block;
-  margin: 10px 0;
-  transition: color 0.2s ease;
+  filter: brightness(0) invert(1);
+  height: auto;
+  max-height: 96px;
+  max-width: 260px;
+  object-fit: contain;
+  opacity: 0.96;
+  width: auto;
 }
 
-.grid a:hover {
+.logoFallback {
+  color: var(--color-white);
+  display: grid;
+  justify-items: center;
+  line-height: 1;
+  text-align: center;
+}
+
+.logoFallback strong {
   color: var(--color-lime);
+  font-family: var(--font-sora), Arial, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: -0.05em;
+}
+
+.logoFallback small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.brand p {
+  color: rgba(234, 242, 245, 0.76);
+  font-size: 1.02rem;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.columns {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 0.7fr 1.1fr 0.9fr;
+}
+
+.column h3 {
+  color: var(--color-lime);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+
+.column nav,
+.contactList,
+.companyInfo {
+  display: grid;
+  gap: 12px;
+}
+
+.column nav a,
+.legal a {
+  color: rgba(255, 255, 255, 0.76);
+  font-weight: 800;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.column nav a:hover,
+.legal a:hover {
+  color: var(--color-lime);
+  transform: translateX(3px);
+}
+
+.contactList a,
+.contactList div {
+  color: rgba(255, 255, 255, 0.78);
+  display: grid;
+  gap: 4px;
+}
+
+.contactList span,
+.companyInfo span {
+  color: rgba(234, 242, 245, 0.58);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contactList strong,
+.companyInfo strong {
+  color: var(--color-white);
+  font-size: 0.98rem;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+.companyInfo {
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+  margin-top: clamp(48px, 7vw, 82px);
+  padding-top: 24px;
+}
+
+.bottom p {
+  color: rgba(234, 242, 245, 0.62);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.legal {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: space-between;
-  margin-top: 52px;
-  padding-top: 22px;
+  gap: 16px;
 }
 
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.legal a {
+  font-size: 0.88rem;
 }
 
-@media (max-width: 620px) {
-  .grid {
+@media (max-width: 980px) {
+  .top,
+  .columns {
     grid-template-columns: 1fr;
+  }
+
+  .brand {
+    max-width: 620px;
+  }
+
+  .bottom {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
