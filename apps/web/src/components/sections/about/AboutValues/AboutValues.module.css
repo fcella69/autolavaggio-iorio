@@ -86,4 +86,8 @@
   .grid {
     grid-template-columns: 1fr;
   }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
 }
