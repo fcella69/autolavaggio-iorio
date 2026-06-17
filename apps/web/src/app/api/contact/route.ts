@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     }
 
     const toEmail =
-      process.env.CONTACT_TO_EMAIL || process.env.RESEND_CONTACT_TO_EMAIL || "lucianoiorio@hotmail.it";
+      process.env.CONTACT_TO_EMAIL || process.env.RESEND_CONTACT_TO_EMAIL || "lavaggioiorios.r.l@hotmail.com";
 
     const fromEmail =
       process.env.RESEND_FROM_EMAIL || "Autolavaggio Iorio <onboarding@resend.dev>";
