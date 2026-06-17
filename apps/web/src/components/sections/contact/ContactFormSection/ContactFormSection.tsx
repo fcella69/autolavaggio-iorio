@@ -4,9 +4,8 @@ import type { CSSProperties, FormEvent } from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button/Button";
 import { Container } from "@/components/ui/Container/Container";
-import styles from "./ContactFormSection.module.css";
 import { sanityImageCss } from "@/lib/sanity/image";
-
+import styles from "./ContactFormSection.module.css";
 
 type ContactFormSectionProps = {
   data?: {
@@ -69,22 +68,25 @@ export function ContactFormSection({ data }: ContactFormSectionProps) {
   };
 
   const requestTypes = data?.requestTypes?.length ? data.requestTypes : fallbackRequestTypes;
+
   const imageStyle = data?.imageUrl
     ? ({
-      "--contact-form-image": sanityImageCss(data.imageUrl, {
-        width: 800,
-        height: 800,
-        quality: 80,
-        fit: "crop"
-      })
-    } as CSSProperties)
+        "--contact-form-image": sanityImageCss(data.imageUrl, {
+          width: 800,
+          height: 800,
+          quality: 80,
+          fit: "crop"
+        })
+      } as CSSProperties)
     : undefined;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const form = event.currentTarget;
     setStatus("loading");
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
 
     try {
@@ -96,11 +98,19 @@ export function ContactFormSection({ data }: ContactFormSectionProps) {
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) {
-        throw new Error("Contact API error");
+      let result: { ok?: boolean; success?: boolean; error?: string } | null = null;
+
+      try {
+        result = await response.json();
+      } catch {
+        result = null;
       }
 
-      event.currentTarget.reset();
+      if (!response.ok || (!result?.ok && !result?.success)) {
+        throw new Error(result?.error || "Contact API error");
+      }
+
+      form.reset();
       setStatus("success");
     } catch {
       setStatus("error");
@@ -143,6 +153,7 @@ export function ContactFormSection({ data }: ContactFormSectionProps) {
                 pointerEvents: "none"
               }}
             />
+
             <div className={styles.field}>
               <label htmlFor="name">{labels.name}</label>
               <input id="name" name="name" type="text" required />
@@ -187,7 +198,9 @@ export function ContactFormSection({ data }: ContactFormSectionProps) {
               <div className={`${styles.status} ${styles.error}`}>{messages.error}</div>
             ) : null}
 
-            <Button type="submit">{status === "loading" ? "Invio in corso..." : labels.submit}</Button>
+            <Button type="submit">
+              {status === "loading" ? "Invio in corso..." : labels.submit}
+            </Button>
           </form>
         </div>
       </Container>
